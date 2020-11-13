@@ -11,4 +11,6 @@ Get the timestamp from exif and draw on the image. Used for raspberry pi timelap
 
 ## Example
  * Before
+ ![Before](test.jpg)
  * After
+ ![After](timestamp/test.jpg)
