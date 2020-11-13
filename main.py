@@ -34,23 +34,26 @@ def getDateTime(image_file):
 
 def printDateTime(image_file, resized_image_file):
     text = getDateTime(image_file)
-    img = Image.open(image_file)
-    draw = ImageDraw.Draw(img)
+    if text != None:
+        img = Image.open(image_file)
+        draw = ImageDraw.Draw(img)
 
-    # get text postion
-    # default: top_left
-    x = text_offset_x
-    y = text_offset_y
-    if text_position == 'top_right' and img.width > text_offset_x:
-        x = img.width - text_offset_x
-    elif text_position == 'bottom_left' and img.height > text_offset_y:
-        y = img.height - text_offset_y
-    elif text_position == 'bottom_right' and img.width > text_offset_x and img.height > text_offset_y:
-        x = img.width - text_offset_x
-        y = img.height - text_offset_y
-    
-    draw.text((x, y), text, text_color, text_font)
-    img.save(resized_image_file)
+        # get text postion
+        # default: top_left
+        x = text_offset_x
+        y = text_offset_y
+        if text_position == 'top_right' and img.width > text_offset_x:
+            x = img.width - text_offset_x
+        elif text_position == 'bottom_left' and img.height > text_offset_y:
+            y = img.height - text_offset_y
+        elif text_position == 'bottom_right' and img.width > text_offset_x and img.height > text_offset_y:
+            x = img.width - text_offset_x
+            y = img.height - text_offset_y
+        
+        draw.text((x, y), text, text_color, text_font)
+        img.save(resized_image_file)
+        return 'Timestamp added'
+    return 'No timestamp is found in exif'
 
 
 if len(sys.argv) < 2:
@@ -63,5 +66,5 @@ else:
     # loop through all images in the current folder
     for filename in os.listdir(folder_path):
         if filename.endswith(".jpg"):
-            printDateTime(folder_path + filename, subfolder_path + filename)
-            print(filename, "- timestamp added")
+            result = printDateTime(folder_path + filename, subfolder_path + filename)
+            print(filename, '---' , result)
